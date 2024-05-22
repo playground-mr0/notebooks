@@ -2,7 +2,7 @@ import time
 from seleniumbase import SB
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-'''
+
 with SB(uc=True) as sb:
     
     #=============================
@@ -16,7 +16,7 @@ with SB(uc=True) as sb:
     sb.click('button:contains("Next")')
     
     time.sleep(10)
-    
+'''    
     #=============================
     #   Open and run notebook
     #=============================
