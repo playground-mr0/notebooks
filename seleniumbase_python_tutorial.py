@@ -3,8 +3,6 @@ from seleniumbase import SB
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
-# nothing
-
 with SB(uc=True) as sb:
     
     #=============================
@@ -18,7 +16,7 @@ with SB(uc=True) as sb:
     sb.click('button:contains("Next")')
     
     time.sleep(10)
-   
+    
     #=============================
     #   Open and run notebook
     #=============================
@@ -27,25 +25,38 @@ with SB(uc=True) as sb:
     time.sleep(30)
     
     sb.click("body")
-    # Simulate Ctrl+F9
     sb.send_keys("body", Keys.CONTROL + Keys.F9)
     print("Pressed CTRL+F9 already")
     time.sleep(30)
+    
+    #=============================
+    #   Save in Google drive
+    #=============================
     sb.send_keys("body", Keys.CONTROL + "s")
     print("Pressed CTRL+S already")
     time.sleep(10)
-
+    
+    #=============================
+    #   Download notebook
+    #=============================
+    sb.send_keys("body", Keys.CONTROL + "a")
+    print("Pressed CTRL+A already")
+    time.sleep(20)
+    
+    #=============================
+    #   Save in Github
+    #=============================
     '''
     sb.send_keys("body", Keys.CONTROL + "e")
     print("Pressed CTRL+E already")
     print("Saving copy in Github with custom keyboard shortcut")
     time.sleep(10)
     sb.click("mwc-button[dialogaction='ok']")
-    #input()
+    input()
     '''
+    
     print("End of commands")
 
     #while True:
     #    pass
     
-
