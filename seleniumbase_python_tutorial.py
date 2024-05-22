@@ -39,7 +39,7 @@ with SB(uc=True) as sb:
     print("Saving copy in Github with custom keyboard shortcut")
     time.sleep(10)
     sb.click("mwc-button[dialogaction='ok']")
-    input()
+    #input()
     print("End of commands")
 
     #while True:
