@@ -40,7 +40,8 @@ jobs:
     # ==================================================
     - name: Move results to correct folder
       run: mv downloaded_files/* results/
-           rm -rf downloaded_files
+    - name: delete downloads folder
+      run: rm -rf downloaded_files
 
     # ==================================================
     #                  PUSH CHANGES
