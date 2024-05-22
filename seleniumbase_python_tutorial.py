@@ -1,8 +1,8 @@
-#import time
+import time
 from seleniumbase import SB
-'''from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-
+'''
 with SB(uc=True) as sb:
     
     #=============================
