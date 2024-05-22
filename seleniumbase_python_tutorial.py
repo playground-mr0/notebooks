@@ -20,7 +20,7 @@ with SB(uc=True) as sb:
     #=============================
     #   Open and run notebook
     #=============================
-    sb.open("https://colab.research.google.com/drive/1MN8VKXladzXIRfzKYg-JNnH16iBfu7LC?usp=sharing")
+    sb.open("https://colab.research.google.com/drive/1X7MLy8L60uKzDU68Z7Y-F42ZKW-5Rm6R#scrollTo=bK40_0ZPYkZf")
     
     time.sleep(30)
     
