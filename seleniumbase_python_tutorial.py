@@ -16,7 +16,7 @@ with SB(uc=True) as sb:
     sb.click('button:contains("Next")')
     
     time.sleep(10)
-'''    
+   
     #=============================
     #   Open and run notebook
     #=============================
@@ -32,7 +32,7 @@ with SB(uc=True) as sb:
     sb.send_keys("body", Keys.CONTROL + "s")
     print("Pressed CTRL+S already")
     time.sleep(10)
-    sb.send_keys("body", Keys.CONTROL + "e")
+'''     sb.send_keys("body", Keys.CONTROL + "e")
     print("Pressed CTRL+E already")
     print("Saving copy in Github with custom keyboard shortcut")
     time.sleep(10)
