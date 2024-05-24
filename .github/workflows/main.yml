@@ -58,5 +58,5 @@ jobs:
           git config --local user.name "playground-mr0"
           git add .
           git commit -m "Automated commit"
-          git push origin HEAD:${{ github.head_ref }}
+          git push origin $GITHUB_REF
        
