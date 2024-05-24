@@ -2,6 +2,9 @@ import time
 from seleniumbase import SB
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 with SB(uc=True) as sb:
     
@@ -20,14 +23,44 @@ with SB(uc=True) as sb:
     #=============================
     #   Open and run notebook
     #=============================
-    sb.open("https://colab.research.google.com/drive/1X7MLy8L60uKzDU68Z7Y-F42ZKW-5Rm6R#scrollTo=bK40_0ZPYkZf")
+    #sb.open("https://colab.research.google.com/drive/1X7MLy8L60uKzDU68Z7Y-F42ZKW-5Rm6R#scrollTo=bK40_0ZPYkZf") #simple_prints_notebook
+    sb.open("https://colab.research.google.com/drive/1UM7kg8JK3Y6B7pGyuvVOl6yUq0b_kk2_#scrollTo=Xr3zWNwUeoaG") #mr0_FID_notebook
     
-    time.sleep(30)
+    time.sleep(10)
     
     sb.click("body")
     sb.send_keys("body", Keys.CONTROL + Keys.F9)
     print("Pressed CTRL+F9 already")
-    time.sleep(30)
+    
+    wait = WebDriverWait(sb, 60)
+    def is_notebook_busy():
+        try:
+
+            # Access the shadow DOM root
+            colab_status_bar = sb.find_element(By.CSS_SELECTOR, "colab-status-bar")
+            print("Found colab status bar")
+            
+            print("Attempting to access shadow root of colab-status-bar...")
+            shadow_root = sb.execute_script('return arguments[0].shadowRoot', colab_status_bar)
+            print("Shadow root of colab-status-bar accessed.")
+            
+            print("Attempting to locate md-icon with class 'success' inside the shadow root...")
+            icon = shadow_root.find_element(By.CSS_SELECTOR, "md-icon.success")
+            print("Success icon found.")
+
+            # Check if the class contains 'success'
+            if 'success' in icon.get_attribute('class'):
+                return True
+            return False
+        except:
+            return False
+
+    # Wait for the notebook to finish running all cells
+    while not is_notebook_busy():
+        print("Not found")
+        time.sleep(5)  # Wait for a few seconds before checking again
+    print("SUCCESS and end it")
+    
     
     #=============================
     #   Save in Google drive
