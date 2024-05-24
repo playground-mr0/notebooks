@@ -46,13 +46,13 @@ jobs:
     # ==================================================
     #                  PUSH CHANGES
     # ==================================================
-    - name: Push changes
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Accessing the secret
-      run: |
-          git config --global user.email "playgroundmr0@gmail.com"
-          git config --global user.name "playground-mr0"
-          git add .
-          git commit -m "Automated commit"
-          git push origin main
+    #- name: Push changes
+    #  env:
+    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Accessing the secret
+    #  run: |
+    #      git config --global user.email "playgroundmr0@gmail.com"
+    #      git config --global user.name "playground-mr0"
+    #      git add .
+    #      git commit -m "Automated commit"
+    #      git push origin main
        
