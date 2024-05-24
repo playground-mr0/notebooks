@@ -40,7 +40,7 @@ jobs:
     #      MOVE RESULTS TO CORRECT REPO LOCATION
     # ==================================================
     - name: Move results to correct folder
-      run: mv downloaded_files/*.ipynb results/
+      run: find downloaded_files -type f ! -name '*.txt' -exec mv {} results/ \;
     - name: delete downloads folder
       run: rm -rf downloaded_files
 
