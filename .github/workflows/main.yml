@@ -40,7 +40,7 @@ jobs:
     #      MOVE RESULTS TO CORRECT REPO LOCATION
     # ==================================================
     - name: Move results to correct folder
-      run: find downloaded_files -type f ! -name '*.txt' -exec mv {} results/ \;
+      run: find downloaded_files -type f ! -name '*.lock' -exec mv {} results/ \;
     - name: delete downloads folder
       run: rm -rf downloaded_files
 
