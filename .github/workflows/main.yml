@@ -1,11 +1,10 @@
 name: notebook colab CI
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - "**"
+    
 permissions: write-all
 
 jobs:
@@ -14,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
@@ -50,9 +51,9 @@ jobs:
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Accessing the secret
       run: |
-          git config --global user.email "playgroundmr0@gmail.com"
-          git config --global user.name "playground-mr0"
+          git config --local user.email "playgroundmr0@gmail.com"
+          git config --local user.name "playground-mr0"
           git add .
           git commit -m "Automated commit"
-          git push origin main
+          git push origin HEAD:${{ github.head_ref }}
        
