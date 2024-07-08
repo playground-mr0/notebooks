@@ -13,6 +13,7 @@ def modify_notebook(notebook_file):
         if cell['cell_type'] == 'code':
             # Check if the cell contains the line to modify
             if "!pip install MRzeroCore &> /dev/null" in cell['source']:
+                print(f"Found line of code.")
                 # Replace the line with the new line
                 cell['source'] = cell['source'].replace(
                     "!pip install MRzeroCore &> /dev/null",
