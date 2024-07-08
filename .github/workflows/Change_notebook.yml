@@ -1,5 +1,5 @@
 
-name: notebook colab CI
+name: Change notebook
 
 on:
   pull_request:
