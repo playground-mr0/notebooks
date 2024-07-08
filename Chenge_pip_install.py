@@ -10,12 +10,10 @@ def modify_notebook(notebook_file):
     
     # Iterate through each cell in the notebook
     for cell in notebook['cells']:
-        print("New cell")
         if cell['cell_type'] == 'code':
-            # Check if the cell contains the line to modify
+            # Check if the target line exists in the cell content
             if "!pip install MRzeroCore &> /dev/null" in cell['source']:
-                print(f"Found line of code.")
-                # Replace the line with the new line
+                # Replace the line within the cell content
                 cell['source'] = cell['source'].replace(
                     "!pip install MRzeroCore &> /dev/null",
                     "!pip install playgroundmr01 &> /dev/null"
@@ -29,6 +27,6 @@ def modify_notebook(notebook_file):
 
 # Usage example
 if __name__ == "__main__":
-    notebook_file = 'Test_change_pip_install.ipynb'
+    notebook_file = 'Test_change_pip_install.ipynb'  # Replace with your actual notebook file path
     modify_notebook(notebook_file)
     print(f"Notebook '{notebook_file}' has been modified.")
