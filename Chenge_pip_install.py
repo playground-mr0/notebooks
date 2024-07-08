@@ -10,7 +10,7 @@ def modify_notebook(notebook_file):
     
     # Iterate through each cell in the notebook
     for cell in notebook['cells']:
-        print("New cell")
+        print(cell)
         if cell['cell_type'] == 'code':
             # Check if the target line exists in the cell content
             if "!pip install MRzeroCore &> /dev/null" in cell['source']:
