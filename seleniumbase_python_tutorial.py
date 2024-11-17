@@ -11,8 +11,10 @@ with SB(uc=True) as sb:
     #=============================
     #   Log in to Google account
     #=============================
-    sb.open("https://www.google.com/gmail/about/")
-    sb.click('a[data-action="sign in"]')
+    sb.open("https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1")
+    #sb.open("https://www.google.com/gmail/about/")
+    #https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1
+    #sb.click('a[data-action="sign in"]')
     sb.type('input[type="email"]', "playgroundmr0@gmail.com")
     sb.click('button:contains("Next")')
     sb.type('input[type="password"]', "X338LrDt$@:1")
@@ -32,11 +34,62 @@ with SB(uc=True) as sb:
     sb.send_keys("body", Keys.CONTROL + Keys.F9)
     print("Pressed CTRL+F9 already")
     
-    wait = WebDriverWait(sb, 60)
+    wait = WebDriverWait(sb, 120)
+
+    def find_md_icon_text():
+        colab_connect_button = sb.find_element(By.CSS_SELECTOR, "colab-connect-button")
+        print("Found colab connect_button")
+
+        # Use JavaScript to get the Shadow DOM and print its content
+        shadow_root_content = sb.execute_script("""
+            const shadowHost = arguments[0];
+            const shadowRoot = shadowHost.shadowRoot;
+            if (shadowRoot) {
+                return shadowRoot.innerHTML;
+            } else {
+                return "No Shadow DOM found";
+            }
+        """, colab_connect_button)
+
+        print("Shadow DOM Content:")
+        print(shadow_root_content)
+
+        # Use JavaScript to fetch the 'md-icon' element's text content
+        interval = 1
+        number_checks = 20
+
+        md_icon_text_final = "not_done"
+        
+        for i in range(number_checks):
+            md_icon_text = sb.execute_script("""
+                const shadowHost = arguments[0];
+                const shadowRoot = shadowHost.shadowRoot;
+                if (shadowRoot) {
+                    const mdIcon = shadowRoot.querySelector('md-icon');
+                    return mdIcon ? mdIcon.textContent.trim() : "md-icon not found";
+                } else {
+                    return "No Shadow DOM found";
+                }
+            """, colab_connect_button)
+
+            time.sleep(interval)
+
+            if i == 0:
+                md_icon_text_final = md_icon_text
+            elif md_icon_text!="done":
+                md_icon_text_final = md_icon_text
+
+        #print("\nmd-icon Text Content:")
+        #print(md_icon_text)  
+
+        return md_icon_text  
+
     def is_notebook_busy():
         try:
 
+            # 1st Approach - When the status was given on the pages bottom bar
             # Access the shadow DOM root
+            '''
             colab_status_bar = sb.find_element(By.CSS_SELECTOR, "colab-status-bar")
             print("Found colab status bar")
             
@@ -52,9 +105,21 @@ with SB(uc=True) as sb:
             if 'success' in icon.get_attribute('class'):
                 return True
             return False
+            '''
+
+            # 2nd approach - we go for the success icon on the top right corner of the page next to the RAM/Disk consumption
+            
+            md_icon_text = find_md_icon_text()
+
+            if md_icon_text == "done":
+                return True
+            else:
+                return False
+
         except:
             return False
-
+            
+    
     # Wait for the notebook to finish running all cells
     while not is_notebook_busy():
         print("Not found")
@@ -76,12 +141,14 @@ with SB(uc=True) as sb:
     print("Pressed CTRL+A already")
     time.sleep(20)
     
+    
     #=============================
     #   Save in Github
     #=============================
-    '''
+    
     sb.send_keys("body", Keys.CONTROL + "e")
     print("Pressed CTRL+E already")
+    '''
     print("Saving copy in Github with custom keyboard shortcut")
     time.sleep(10)
     sb.click("mwc-button[dialogaction='ok']")
