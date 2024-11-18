@@ -26,7 +26,8 @@ with SB(uc=True) as sb:
     #   Open and run notebook
     #=============================
     #sb.open("https://colab.research.google.com/drive/1X7MLy8L60uKzDU68Z7Y-F42ZKW-5Rm6R#scrollTo=bK40_0ZPYkZf") #simple_prints_notebook
-    sb.open("https://colab.research.google.com/drive/1UM7kg8JK3Y6B7pGyuvVOl6yUq0b_kk2_#scrollTo=Xr3zWNwUeoaG") #mr0_FID_notebook
+    #sb.open("https://colab.research.google.com/drive/1UM7kg8JK3Y6B7pGyuvVOl6yUq0b_kk2_#scrollTo=Xr3zWNwUeoaG") #mr0_FID_notebook
+    sb.open("https://colab.research.google.com/drive/1_06h399DBZOfzfVnjMo7BfaApMlwqaGD#scrollTo=WfnIjWSdVJgU") #mr0_FID_notebook
     
     time.sleep(10)
     
