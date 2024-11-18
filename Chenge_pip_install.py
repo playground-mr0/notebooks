@@ -1,5 +1,7 @@
 import json
 
+print("Change")
+
 def modify_notebook(notebook_file):
     # Read the notebook file
     with open(notebook_file, 'r', encoding='utf-8') as f:
