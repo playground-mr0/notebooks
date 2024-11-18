@@ -15,9 +15,12 @@ with SB(uc=True) as sb:
     #sb.open("https://www.google.com/gmail/about/")
     #https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1
     #sb.click('a[data-action="sign in"]')
+    time.sleep(10)
     sb.type('input[type="email"]', "playgroundmr0@gmail.com")
     sb.click('button:contains("Next")')
+    time.sleep(10)
     sb.type('input[type="password"]', "X338LrDt$@:1")
+    time.sleep(10)
     sb.click('button:contains("Next")')
     
     time.sleep(10)
