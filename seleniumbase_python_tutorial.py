@@ -26,6 +26,7 @@ with SB(uc=True) as sb:
                 sb.click('button:contains("Next")')
                 time.sleep(10)
                 successfull_signin = True
+                print("We sign in!")
             
             #=============================
             #   Open and run notebook
