@@ -15,7 +15,7 @@ with SB(uc=True) as sb:
     while not(done_running) and run_counter <= 5:
         
         try:
-            if not(successfull_signin):
+            if not(successfull_signin) or True:
                 #=============================
                 #   Log in to Google account
                 #=============================
