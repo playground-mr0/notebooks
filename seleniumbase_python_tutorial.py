@@ -7,160 +7,182 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 with SB(uc=True) as sb:
-    
-    #=============================
-    #   Log in to Google account
-    #=============================
-    sb.open("https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1")
-    #sb.open("https://www.google.com/gmail/about/")
-    #https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1
-    #sb.click('a[data-action="sign in"]')
-    time.sleep(10)
-    sb.type('input[type="email"]', "playgroundmr0@gmail.com")
-    sb.click('button:contains("Next")')
-    time.sleep(10)
-    sb.type('input[type="password"]', "X338LrDt$@:1")
-    time.sleep(10)
-    sb.click('button:contains("Next")')
-    
-    time.sleep(10)
-    
-    #=============================
-    #   Open and run notebook
-    #=============================
-    #sb.open("https://colab.research.google.com/drive/1X7MLy8L60uKzDU68Z7Y-F42ZKW-5Rm6R#scrollTo=bK40_0ZPYkZf") #simple_prints_notebook
-    #sb.open("https://colab.research.google.com/drive/1UM7kg8JK3Y6B7pGyuvVOl6yUq0b_kk2_#scrollTo=Xr3zWNwUeoaG") #mr0_FID_notebook
-    sb.open("https://colab.research.google.com/drive/1_06h399DBZOfzfVnjMo7BfaApMlwqaGD#scrollTo=WfnIjWSdVJgU") #mr0_FID_notebook
-    
-    time.sleep(10)
-    
-    sb.click("body")
-    sb.send_keys("body", Keys.CONTROL + Keys.F9)
-    print("Pressed CTRL+F9 already")
-    
-    wait = WebDriverWait(sb, 120)
 
-    def find_md_icon_text():
-        colab_connect_button = sb.find_element(By.CSS_SELECTOR, "colab-connect-button")
-        print("Found colab connect_button")
+    done_running = False
+    run_counter = 1
+    successfull_signin = False
 
-        # Use JavaScript to get the Shadow DOM and print its content
-        shadow_root_content = sb.execute_script("""
-            const shadowHost = arguments[0];
-            const shadowRoot = shadowHost.shadowRoot;
-            if (shadowRoot) {
-                return shadowRoot.innerHTML;
-            } else {
-                return "No Shadow DOM found";
-            }
-        """, colab_connect_button)
-
-        print("Shadow DOM Content:")
-        print(shadow_root_content)
-
-        # Use JavaScript to fetch the 'md-icon' element's text content
-        interval = 1
-        number_checks = 20
-
-        md_icon_text_final = "not_done"
+    while not(done_running) and run_counter <= 5:
         
-        for i in range(number_checks):
-            md_icon_text = sb.execute_script("""
-                const shadowHost = arguments[0];
-                const shadowRoot = shadowHost.shadowRoot;
-                if (shadowRoot) {
-                    const mdIcon = shadowRoot.querySelector('md-icon');
-                    return mdIcon ? mdIcon.textContent.trim() : "md-icon not found";
-                } else {
-                    return "No Shadow DOM found";
-                }
-            """, colab_connect_button)
-
-            time.sleep(interval)
-
-            if i == 0:
-                md_icon_text_final = md_icon_text
-            elif md_icon_text!="done":
-                md_icon_text_final = md_icon_text
-
-        #print("\nmd-icon Text Content:")
-        #print(md_icon_text)  
-
-        return md_icon_text  
-
-    def is_notebook_busy():
         try:
-
-            # 1st Approach - When the status was given on the pages bottom bar
-            # Access the shadow DOM root
-            '''
-            colab_status_bar = sb.find_element(By.CSS_SELECTOR, "colab-status-bar")
-            print("Found colab status bar")
+            if not(successfull_signin):
+                #=============================
+                #   Log in to Google account
+                #=============================
+                sb.open("https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1")#sb.open("https://www.google.com/gmail/about/")#https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Faccounts.google.com%2F&followup=https%3A%2F%2Faccounts.google.com%2F&ifkv=AcMMx-cjZweVabYIsP5kUsVfuS6Q7T-dvar6uwFzZ1cFMCcsY1SAYKnCeRPWRJZRzxTvRgRbggrbvA&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S1647635945%3A1731316778837491&ddm=1#sb.click('a[data-action="sign in"]')
+                sb.type('input[type="email"]', "playgroundmr0@gmail.com")
+                sb.click('button:contains("Next")')
+                sb.type('input[type="password"]', "X338LrDt$@:1")
+                sb.click('button:contains("Next")')
+                time.sleep(10)
+                successfull_signin = True
             
-            print("Attempting to access shadow root of colab-status-bar...")
-            shadow_root = sb.execute_script('return arguments[0].shadowRoot', colab_status_bar)
-            print("Shadow root of colab-status-bar accessed.")
+            #=============================
+            #   Open and run notebook
+            #=============================
+            # - Open link
+            sb.open("https://colab.research.google.com/drive/1AGqjIuFsRaxJyaQp3bETe0K7878yUczh#scrollTo=olW3XmJbcgXD") #mr0_FID_notebook #sb.open("https://colab.research.google.com/drive/1_06h399DBZOfzfVnjMo7BfaApMlwqaGD#scrollTo=WfnIjWSdVJgU") #Test_notebook
+            time.sleep(10)
             
-            print("Attempting to locate md-icon with class 'success' inside the shadow root...")
-            icon = shadow_root.find_element(By.CSS_SELECTOR, "md-icon.success")
-            print("Success icon found.")
-
-            # Check if the class contains 'success'
-            if 'success' in icon.get_attribute('class'):
-                return True
-            return False
-            '''
-
-            # 2nd approach - we go for the success icon on the top right corner of the page next to the RAM/Disk consumption
+            # - Run all cells
+            sb.click("body")
+            sb.send_keys("body", Keys.CONTROL + Keys.F9)
+            print("Run all cells: Pressed CTRL+F9 already")
             
-            md_icon_text = find_md_icon_text()
+            # - Wait for all cells to run
+            wait = WebDriverWait(sb, 120)
 
-            if md_icon_text == "done":
-                return True
-            else:
+            def find_md_icon_text():
+                colab_connect_button = sb.find_element(By.CSS_SELECTOR, "colab-connect-button")
+
+                # Use JavaScript to fetch the 'md-icon' element's text content
+                interval = 1
+                number_checks = 50
+
+                md_icon_text_final = "not_done"
+                
+                for i in range(number_checks):
+                    md_icon_text = sb.execute_script("""
+                        const shadowHost = arguments[0];
+                        const shadowRoot = shadowHost.shadowRoot;
+                        if (shadowRoot) {
+                            const mdIcon = shadowRoot.querySelector('md-icon');
+                            return mdIcon ? mdIcon.textContent.trim() : "md-icon not found";
+                        } else {
+                            return "No Shadow DOM found";
+                        }
+                    """, colab_connect_button)
+
+                    time.sleep(interval)
+
+                    if i == 0:
+                        md_icon_text_final = md_icon_text
+                    elif md_icon_text!="done":
+                        md_icon_text_final = md_icon_text
+
+                return md_icon_text  
+
+            def is_notebook_busy():
+                
+                # 1st Approach - When the status was given on the pages bottom bar
+                # Access the shadow DOM root
+                '''
+                colab_status_bar = sb.find_element(By.CSS_SELECTOR, "colab-status-bar")
+                print("Found colab status bar")                    
+                print("Attempting to access shadow root of colab-status-bar...")
+                shadow_root = sb.execute_script('return arguments[0].shadowRoot', colab_status_bar)
+                print("Shadow root of colab-status-bar accessed.")                    
+                print("Attempting to locate md-icon with class 'success' inside the shadow root...")
+                icon = shadow_root.find_element(By.CSS_SELECTOR, "md-icon.success")
+                print("Success icon found.")
+                # Check if the class contains 'success'
+                if 'success' in icon.get_attribute('class'):
+                    return True
                 return False
+                '''
+                # 2nd approach - we go for the success icon on the top right corner of the page next to the RAM/Disk consumption                    
+                md_icon_text = find_md_icon_text()
+                if md_icon_text == "done":
+                    return True
+                else:
+                    return False
 
-        except:
-            return False
+                    
+            while not is_notebook_busy():
+                print("Not found")
+                time.sleep(5)  # Wait for a few seconds before checking again
+            print("All cells ran")
             
-    
-    # Wait for the notebook to finish running all cells
-    while not is_notebook_busy():
-        print("Not found")
-        time.sleep(5)  # Wait for a few seconds before checking again
-    print("SUCCESS and end it")
-    
-    
-    #=============================
-    #   Save in Google drive
-    #=============================
-    sb.send_keys("body", Keys.CONTROL + "s")
-    print("Pressed CTRL+S already")
-    time.sleep(10)
-    
-    #=============================
-    #   Download notebook
-    #=============================
-    sb.send_keys("body", Keys.CONTROL + "a")
-    print("Pressed CTRL+A already")
-    time.sleep(20)
-    
-    
-    #=============================
-    #   Save in Github
-    #=============================
-    
-    sb.send_keys("body", Keys.CONTROL + "e")
-    print("Pressed CTRL+E already")
-    '''
-    print("Saving copy in Github with custom keyboard shortcut")
-    time.sleep(10)
-    sb.click("mwc-button[dialogaction='ok']")
-    input()
-    '''
-    
-    print("End of commands")
+            
+            #=============================
+            #   Save in Google drive
+            #=============================
+            sb.send_keys("body", Keys.CONTROL + "s")
+            print("Save notebook: Pressed CTRL+S already")
+            time.sleep(10)
+            
+            #=============================
+            #   Download notebook
+            #=============================
+            #sb.send_keys("body", Keys.CONTROL + "a")
+            #print("Download notebook: Pressed CTRL+A already")
+            #time.sleep(20)
+            
+            #=============================
+            #   Save in Github
+            #=============================
 
+            # - Retrieve name of the notebook
+            input_doc_name = "#doc-name"
+            notebook_name = sb.get_value(input_doc_name)
+
+            print("Notebook name = ", notebook_name)
+
+            # - Actually request saving in github
+            sb.send_keys("body", Keys.CONTROL + "e")
+            print("Saving in github: Pressed CTRL+E already")
+
+            # - Choose correct repository
+            sb.click('md-filled-select')
+            sb.click('md-select-option:contains("playground-mr0/notebooks")')
+
+            # - Provide the file path
+            file_path = "results/" + notebook_name
+            shadow_host = WebDriverWait(sb, 20).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "md-outlined-text-field.github-path-input"))
+            )
+            shadow_root = sb.execute_script("return arguments[0].shadowRoot", shadow_host)
+            input_field = shadow_root.find_element(By.CSS_SELECTOR, "div.input-wrapper > input")
+            sb.execute_script("""
+                const inputField = arguments[0];
+                const newValue = arguments[1];
+                inputField.value = newValue;
+                inputField.dispatchEvent(new Event('input', { bubbles: true }));
+                inputField.dispatchEvent(new Event('change', { bubbles: true }));
+            """, input_field, file_path)
+
+            # - Provide commit message
+            commit_message = "hello this is my commit message"
+            shadow_host2 = WebDriverWait(sb, 20).until(
+                EC.presence_of_element_located((By.XPATH, "/html/body/mwc-dialog/div/md-outlined-text-field[2]"))
+            )
+            outer_shadow_root = sb.execute_script("return arguments[0].shadowRoot", shadow_host2)
+            input_field = outer_shadow_root.find_element(By.CSS_SELECTOR, "span > md-outlined-field > textarea")
+            sb.execute_script("""
+                const inputField = arguments[0];
+                const newValue = arguments[1];
+                inputField.value = newValue;
+                inputField.dispatchEvent(new Event('input', { bubbles: true }));
+                inputField.dispatchEvent(new Event('change', { bubbles: true }));
+            """, input_field, commit_message)
+
+            # - Click OK button
+            shadow_host3 = WebDriverWait(sb, 20).until(
+                EC.presence_of_element_located((By.XPATH, "/html/body/mwc-dialog/md-text-button[2]"))
+            )
+            shadow_root3 = sb.execute_script("return arguments[0].shadowRoot", shadow_host3)
+            ok_button = shadow_root3.find_element(By.CSS_SELECTOR, "#button")
+            ok_button.click()
+            
+            print("End of commands")
+
+            done_running = True
+        except:
+            print("Run #", run_counter, " ended abruptly...")
+            done_running = False
+            run_counter = run_counter + 1
+
+    print("Exited run loop - run #", run_counter, " ended successfully")
     #while True:
     #    pass
     
