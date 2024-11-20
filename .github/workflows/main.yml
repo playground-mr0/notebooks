@@ -58,6 +58,11 @@ jobs:
           git config --local user.email "playgroundmr0@gmail.com"
           git config --local user.name "playground-mr0"
           git add .
-          git commit -m "Automated commit"
-          git push origin $GITHUB_REF
+          if [[ -n "$(git status --porcelain)" ]]; then
+            echo "There are changes to commit."
+            git commit -m "Automated commit"
+            git push origin $GITHUB_REF
+          else
+            echo "No changes to commit."
+          fi
        
